@@ -1,0 +1,19 @@
+pkgbase = codemeter-runtime
+    pkgdesc = codemeter runtime (server and cli tools, no GUI)
+    pkgver = 7.40.5001.502
+    pkgrel = 2
+    url = https://www.wibu.com/
+    install = codemeter-runtime.install
+    arch = x86_64
+    license = custom
+    depends = libusb
+    depends = fakeroot
+    backup = etc/wibu/CodeMeter/Server.ini
+    source = https://www.wibu.com/support/user/user-software/file/download/9365.html?tx_wibudownloads_downloadlist%5BdirectDownload%5D=1&tx_wibudownloads_downloadlist%5BuseAwsS3%5D=0&cHash=434af65bb675fc15aebb1141838b9c60
+    source = codemeter.service
+    source = sysusers.conf
+    md5sums = '51c81d3a73cc137e033b760da13dfe87'
+    md5sums = 'c8cff7a14a32a78f6a8c589b4660130c'
+    md5sums = '99358614293bfef1e8a508991eaaebeb'
+
+pkgname = codemeter-runtime

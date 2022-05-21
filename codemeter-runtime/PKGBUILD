@@ -1,0 +1,62 @@
+# Maintainer: Maarten de Vries <maarten@de-vri.es>
+
+pkgname=codemeter-runtime
+pkgver=7.40.5001.502
+pkgrel=2
+pkgdesc='codemeter runtime (server and cli tools, no GUI)'
+license=('custom')
+url='https://www.wibu.com/'
+
+arch=(x86_64)
+backup=('etc/wibu/CodeMeter/Server.ini')
+install="$pkgname.install"
+
+depends=(
+    'libusb'
+    'fakeroot'
+)
+
+source=(
+    "https://www.wibu.com/support/user/user-software/file/download/9365.html?tx_wibudownloads_downloadlist%5BdirectDownload%5D=1&tx_wibudownloads_downloadlist%5BuseAwsS3%5D=0&cHash=434af65bb675fc15aebb1141838b9c60"
+    "codemeter.service"
+    "sysusers.conf"
+)
+
+md5sums=(
+    '51c81d3a73cc137e033b760da13dfe87'
+    'c8cff7a14a32a78f6a8c589b4660130c'
+    '99358614293bfef1e8a508991eaaebeb'
+    )
+
+prepare() {
+    bsdtar -xf data.tar.*
+}
+
+package() {
+    install -d "$pkgdir/etc"
+    install -d "$pkgdir/usr/bin"
+    install -d "$pkgdir/usr/lib"
+    install -d "$pkgdir/usr/lib32"
+    install -d "$pkgdir/usr/share"
+    install -d "$pkgdir/var/lib"
+    install -d "$pkgdir/var/log"
+
+    # Created by CodeMeterLin -x on debian.
+    install -d "$pkgdir/var/spool/ctmp"
+
+    cp -a "$srcdir/etc/wibu"                   "$pkgdir/etc/"
+    cp -a "$srcdir/etc/init.d"                 "$pkgdir/etc/"
+    cp -a "$srcdir/usr/bin/"*                  "$pkgdir/usr/bin/"
+    cp -a "$srcdir/usr/sbin/"*                 "$pkgdir/usr/bin/"
+    cp -a "$srcdir/usr/lib/x86_64-linux-gnu/"* "$pkgdir/usr/lib/"
+    cp -a "$srcdir/usr/share/"*                "$pkgdir/usr/share/"
+    cp -a "$srcdir/var/lib/CodeMeter"          "$pkgdir/var/lib/"
+    cp -a "$srcdir/var/log/CodeMeter"          "$pkgdir/var/log/"
+
+    ln -fs '/usr/share/licenses/common/LGPL2.1/license.txt' "$pkgdir/usr/share/doc/CodeMeter/lgpl-2.1.txt"
+
+    install -D "$srcdir/sysusers.conf"     "$pkgdir/usr/lib/sysusers.d/$pkgname.conf"
+    install -D "$srcdir/codemeter.service" "$pkgdir/usr/lib/systemd/system/codemeter.service"
+
+}
+
